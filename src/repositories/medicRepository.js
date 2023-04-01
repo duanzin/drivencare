@@ -4,10 +4,11 @@ export async function getMedic(email) {
   return db.query(`SELECT * FROM medics WHERE email = $1`, [email]);
 }
 
-export async function createMedic(name, email, passhash) {
+export async function createMedic(medic) {
+  const { name, email, passhash, specialty, location } = medic;
   return db.query(
-    `INSERT INTO medics (name, email, password) VALUES($1, $2, $3)`,
-    [name, email, passhash]
+    `INSERT INTO medics (name, email, password, specialty, location) VALUES($1, $2, $3, $4, $5)`,
+    [name, email, passhash, specialty, location]
   );
 }
 

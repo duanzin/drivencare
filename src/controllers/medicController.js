@@ -8,15 +8,15 @@ import {
 } from "../repositories/medicRepository.js";
 
 async function signup(req, res) {
-  const { name, email, password } = req.body;
+  const { name, email, password, specialty, location } = req.body;
   const passhash = bcrypt.hashSync(password, 10);
   try {
     const medicExists = await getMedic(email);
     if (medicExists.rows.length !== 0) {
       return res.sendStatus(409);
     }
-
-    await createMedic(name, email, passhash);
+    const info = {name, email, passhash, specialty, location};
+    await createMedic(info);
 
     res.sendStatus(201);
   } catch (err) {
