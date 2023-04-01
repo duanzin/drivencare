@@ -1,7 +1,7 @@
 import { Router } from "express";
-import medicController from "../controllers/medicController";
-import { validateSchema } from "../middlewares/validateSchema";
-import { signin, signup } from "../schemas/Schema";
+import medicController from "../controllers/medicController.js";
+import { validateSchema } from "../middlewares/validateSchema.js";
+import { signin, signup } from "../schemas/Schema.js";
 
 const medicRouter = Router();
 

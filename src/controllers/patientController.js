@@ -1,6 +1,11 @@
 import bcrypt from "bcrypt";
 import { v4 as uuid } from "uuid";
-import { createPatient, createSession, deleteSession, getPatient } from "../repositories/patientRepository";
+import {
+  createPatient,
+  createSession,
+  deleteSession,
+  getPatient,
+} from "../repositories/patientRepository.js";
 
 async function signup(req, res) {
   const { name, email, password } = req.body;
