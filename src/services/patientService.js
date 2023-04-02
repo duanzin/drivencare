@@ -1,7 +1,10 @@
 import bcrypt from "bcrypt";
 import patientRepository from "../repositories/patientRepository.js";
 import { v4 as uuidV4 } from "uuid";
-import { DuplicatedEmailError, InvalidCredentialsError } from "../errors/index.js";
+import {
+  DuplicatedEmailError,
+  InvalidCredentialsError,
+} from "../errors/index.js";
 
 async function create(name, email, password) {
   const { rowCount } = await patientRepository.getPatient(email);

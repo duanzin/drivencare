@@ -5,7 +5,11 @@ import { patientSignup, signin } from "../schemas/Schema.js";
 
 const patientRouter = Router();
 
-patientRouter.post('/signup', validateSchema(patientSignup), patientController.signup)
-patientRouter.post("/signin", validateSchema(signin), patientController.signin)
+patientRouter.post(
+  "/signup",
+  validateSchema(patientSignup),
+  patientController.signup
+);
+patientRouter.post("/signin", validateSchema(signin), patientController.signin);
 
 export default patientRouter;
