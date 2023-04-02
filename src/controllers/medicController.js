@@ -1,52 +1,22 @@
-import bcrypt from "bcrypt";
-import { v4 as uuid } from "uuid";
-import {
-  createMedic,
-  createSession,
-  deleteSession,
-  getMedic,
-} from "../repositories/medicRepository.js";
+import medicService from "../services/medicService.js";
 
-async function signup(req, res) {
-  const { name, email, password, specialty, location } = req.body;
-  const passhash = bcrypt.hashSync(password, 10);
+async function signup(req, res, next) {
   try {
-    const medicExists = await getMedic(email);
-    if (medicExists.rows.length !== 0) {
-      return res.sendStatus(409);
-    }
-    const info = {name, email, passhash, specialty, location};
-    await createMedic(info);
-
-    res.sendStatus(201);
+    await medicService.create(req.body);
+    return res.sendStatus(201);
   } catch (err) {
-    res.status(500).send(err.message);
+    next(err);
   }
 }
 
-async function signin(req, res) {
+async function signin(req, res, next) {
+  const { email, password } = req.body;
   try {
-    const medic = await getMedic(req.body.email);
-    if (medic.rows.length == 0) {
-      return res.sendStatus(401);
-    }
-
-    const passmatch = await bcrypt.compareSync(
-      req.body.password,
-      medic.rows[0].password
-    );
-    if (!passmatch) {
-      return res.sendStatus(401);
-    }
-
-    const token = uuid();
-
-    await deleteSession(medic.rows[0].id);
-    await createSession(token, medic.rows[0].id);
+    const token = await medicService.signin(email, password);
 
     res.status(200).send({ token });
   } catch (err) {
-    res.status(500).send(err.message);
+    next(err);
   }
 }
 
